@@ -62,7 +62,7 @@ def main():
     st.write("")
     st.write("Jawaban akan menghilang setelah 8 detik. ***'Resapi Jawaban Yang Diterima Sebaik Mungkin.'***")
     st.write("Jangan Klik Tombol Saat Jawaban Masih Ada. Gunakan Waktu yang ada Untuk Memahaminya~")
-    st.write("*Note : Hanya ada Sekian Kesempatan Bertanya")
+    st.write("*Note : Hanya ada Sekian Kesempatan untuk Bertanya")
 
     # Tampilkan peringatan setelah 3 kali pengeklikan
     if st.session_state['jumlah_klik'] == 3:
