@@ -46,11 +46,11 @@ def main():
     st.write('#JUST FOR FUN😎')
     st.write("Panduan:\n1. Pikirkan Pertanyaanmu (Terserah Apapun, Bebas).\n2. Tahan Pertanyaanmu selama 5 detik.\n3. Tekan tombol di bawah setelah 5 detik :")
 
-    # Inisialisasi variabel 
+    # Inisialisasi variabel untuk melacak jumlah pengeklikan
     if 'jumlah_klik' not in st.session_state:
         st.session_state['jumlah_klik'] = 0
 
-    # Tampilkan tombol 
+    # Tampilkan tombol dan panggil fungsi Jawaban() ketika tombol ditekan
     if st.button('👉"Jawaban dari Pertanyaanmu"👈', disabled=st.session_state['jumlah_klik'] >= 3):
         random_answer = get_random_answer()
         placeholder = st.empty()
@@ -58,22 +58,19 @@ def main():
         time.sleep(8)
         placeholder.empty()
         st.session_state['jumlah_klik'] += 1
-        
-def panduan():
+
     st.write("")
     st.write("Jawaban akan menghilang setelah 8 detik. ***'Resapi Jawaban Yang Diterima Sebaik Mungkin.'***")
     st.write("Jangan Klik Tombol Saat Jawaban Masih Ada. Gunakan Waktu yang ada Untuk Memahaminya~")
     st.write("*Note : Hanya ada Sekian Kesempatan Bertanya")
 
-    # Peringatan saat 3x pengeklikan
+    # Tampilkan peringatan setelah 3 kali pengeklikan
     if st.session_state['jumlah_klik'] == 3:
         st.warning("dAH AH, Capek")
 
-    # Peringatan saat 4x pengeklikan
+    # Tampilkan peringatan setelah 4 kali pengeklikan
     if st.session_state['jumlah_klik'] == 4:
         st.warning("ANJERR LUU NANYA TEROSS, MALES GW!!")
 
 if __name__ == '__main__':
     main()
-
-
