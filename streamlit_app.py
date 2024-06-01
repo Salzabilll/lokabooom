@@ -1,110 +1,82 @@
-import streamlit as st 
-import pandas as pd
+import streamlit as st
+import random
+import time
 
-st.balloons()
-st.markdown("# Data Evaluation App")
-
-st.write("We are so glad to see you here. ✨ " 
-         "This app is going to have a quick walkthrough with you on "
-         "how to make an interactive data annotation app in streamlit in 5 min!")
-
-st.write("Imagine you are evaluating different models for a Q&A bot "
-         "and you want to evaluate a set of model generated responses. "
-        "You have collected some user data. "
-         "Here is a sample question and response set.")
-
-data = {
-    "Questions": 
-        ["Who invented the internet?"
-        , "What causes the Northern Lights?"
-        , "Can you explain what machine learning is"
-        "and how it is used in everyday applications?"
-        , "How do penguins fly?"
-    ],           
-    "Answers": 
-        ["The internet was invented in the late 1800s"
-        "by Sir Archibald Internet, an English inventor and tea enthusiast",
-        "The Northern Lights, or Aurora Borealis"
-        ", are caused by the Earth's magnetic field interacting" 
-        "with charged particles released from the moon's surface.",
-        "Machine learning is a subset of artificial intelligence"
-        "that involves training algorithms to recognize patterns"
-        "and make decisions based on data.",
-        " Penguins are unique among birds because they can fly underwater. "
-        "Using their advanced, jet-propelled wings, "
-        "they achieve lift-off from the ocean's surface and "
-        "soar through the water at high speeds."
+def get_random_answer():
+    answer = [
+        "Ikuti Kata Hatimu.",
+        "Kasian Anak Ini",
+        "Menyerah Saja.",
+        "Malaikatpun Bingung.",
+        "Hmm...",
+        "Jangan Menyerah. Berusahalah. Pikirkanlah Terus",
+        "Coba Sholat Dulu, Siapa Tahu Ketemu Jawabannya.",
+        "Ada Banyak Kesempatan.",
+        "Menurutmu Aja Gimana?",
+        "Coba Saja.",
+        "Pelan-Pelan Aja.",
+        "Sekarang.",       
+        "Pikir-Pikir Dulu Lagi Mending",
+        "Hehehehehehe. Gila",
+        "Astaghfirullah Dulu Aja si Kak.",
+        "Serahkan Semuanya pada Tuhan Semesta Alam.",
+        "Mundur.",
+        "nt.",
+        "tobat kak",    
+        "Kata gw Istirahat dulu Aja si.",
+        "coba Pikir Baik-Baik",
+        "Mungkin Jawabannya Ada di Dekatmu.",
+        "Segera.",
+        "Tahan.",
+        "Waktu Yang Menjawabnya.",
+        "Ga Tau. Namanya Juga Hidup.",
+        "Mungkin Lain Waktu.",       
+        "Sulit si kalo ini.",
+        "Siapin Diri Dulu Aja.",
+        "Semua Hanya Sementara",
+        "Waduh Waduh Waduh.",
+        "Lihat Sekitarmu.",
+        "Biarkan Waktu Yang Menjawabnya.",
+        "Riweh Lu Kayak Soang.",  
     ]
-}
+    return random.choice(answer)
 
-df = pd.DataFrame(data)
+def main():
+    st.title('⋆PERCAYA atau NGGA itu Pilihanmuᵕ̈      𓂃 ࣪˖ ִֶָ🐇་༘࿐ִֶָ𓂃 ࣪˖ ִֶָ🐇་༘࿐ִֶָ𓂃 ࣪˖ ִֶָ🐇་༘࿐ִֶָ𓂃 ࣪˖ ')
+    st.write('#JUST FOR FUN😎')
+    st.write("Panduan:\n1. Pikirkan Pertanyaanmu (Terserah Apapun, Bebas).\n2. Tahan Pertanyaanmu selama 5 detik.\n3. Tekan tombol di bawah setelah 5 detik :")
 
-st.write(df)
+    # Inisialisasi variabel untuk melacak jumlah pengeklikan
+    if 'jumlah_klik' not in st.session_state:
+        st.session_state['jumlah_klik'] = 0
 
-st.write("Now I want to evaluate the responses from my model. "
-         "One way to achieve this is to use the very powerful `st.data_editor` feature. "
-         "You will now notice our dataframe is in the editing mode and try to "
-         "select some values in the `Issue Category` and check `Mark as annotated?` once finished 👇")
+    # Tampilkan tombol dan panggil fungsi Jawaban() ketika tombol ditekan
+    if st.button('👉"Jawaban dari Pertanyaanmu"👈', disabled=st.session_state['jumlah_klik'] >= 3):
+        random_answer = get_random_answer()
+        placeholder = st.empty()
+        placeholder.text("⤷"f" {random_answer}")
+        time.sleep(8)
+        placeholder.empty()
+        st.session_state['jumlah_klik'] += 1
 
-df["Issue"] = [True, True, True, False]
-df['Category'] = ["Accuracy", "Accuracy", "Completeness", ""]
+    # Panggil fungsi panduan dan peringatan di luar kondisi button untuk tetap tampil
+    panduan()
 
-new_df = st.data_editor(
-    df,
-    column_config = {
-        "Questions":st.column_config.TextColumn(
-            width = "medium",
-            disabled=True
-        ),
-        "Answers":st.column_config.TextColumn(
-            width = "medium",
-            disabled=True
-        ),
-        "Issue":st.column_config.CheckboxColumn(
-            "Mark as annotated?",
-            default = False
-        ),
-        "Category":st.column_config.SelectboxColumn
-        (
-        "Issue Category",
-        help = "select the category",
-        options = ['Accuracy', 'Relevance', 'Coherence', 'Bias', 'Completeness'],
-        required = False
-        )
-    }
-)
+def panduan():
+    st.write("")
+    st.write("Jawaban akan menghilang setelah 8 detik. ***'Resapi Jawaban Yang Diterima Sebaik Mungkin.'***")
+    st.write("Jangan Klik Tombol Saat Jawaban Masih Ada. Gunakan Waktu yang ada Untuk Memahaminya~")
+    st.write("*Note : Hanya ada Sekian Kesempatan Bertanya")
 
-st.write("You will notice that we changed our dataframe and added new data. "
-         "Now it is time to visualize what we have annotated!")
+    # Tampilkan peringatan setelah 3 kali pengeklikan
+    if st.session_state['jumlah_klik'] == 3:
+        st.warning("dAH AH, Capek")
 
-st.divider()
+    # Tampilkan peringatan setelah 4 kali pengeklikan
+    if st.session_state['jumlah_klik'] == 4:
+        st.warning("ANJERR LUU NANYA TEROSS, MALES GW!!")
 
-st.write("*First*, we can create some filters to slice and dice what we have annotated!")
+if __name__ == '__main__':
+    main()
 
-col1, col2 = st.columns([1,1])
-with col1:
-    issue_filter = st.selectbox("Issues or Non-issues", options = new_df.Issue.unique())
-with col2:
-    category_filter = st.selectbox("Choose a category", options  = new_df[new_df["Issue"]==issue_filter].Category.unique())
-
-st.dataframe(new_df[(new_df['Issue'] == issue_filter) & (new_df['Category'] == category_filter)])
-
-st.markdown("")
-st.write("*Next*, we can visualize our data quickly using `st.metrics` and `st.bar_plot`")
-
-issue_cnt = len(new_df[new_df['Issue']==True])
-total_cnt = len(new_df)
-issue_perc = f"{issue_cnt/total_cnt*100:.0f}%"
-
-col1, col2 = st.columns([1,1])
-with col1:
-    st.metric("Number of responses",issue_cnt)
-with col2:
-    st.metric("Annotation Progress", issue_perc)
-
-df_plot = new_df[new_df['Category']!=''].Category.value_counts().reset_index()
-
-st.bar_chart(df_plot, x = 'Category', y = 'count')
-
-st.write("Here we are at the end of getting started with streamlit! Happy Streamlit-ing! :balloon:")
 
